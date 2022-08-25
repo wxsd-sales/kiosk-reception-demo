@@ -91,7 +91,6 @@
   let activePersonModel = undefined;
   let isLoading = false;
   let from = undefined;
-  let message = undefined;
 
   function handleMessageSend() {
     // Emulate send as requested
@@ -99,7 +98,6 @@
       setTimeout(() => {
         isLoading = false;
         from = undefined;
-        message = undefined;
         activePersonModel = undefined;
       }, 1000)
     );
@@ -156,25 +154,39 @@
       <figure class="image is-4by5">
         <div class="has-ratio">
           <PersonCard {...activePersonModel}>
-            <div class="control has-icons-left is-expanded block">
-              <input
-                class="input is-rounded is-medium"
-                placeholder="Your Name"
-                bind:value={from}
-                disabled={isLoading}
-              />
-              <span class="icon is-large is-left">
-                <i class="mdi mdi-24px mdi-account" />
-              </span>
-            </div>
-            <div class="field has-addons block">
+            <div class="field has-addons">
               <div class="control has-icons-left is-expanded">
-                <div class="select is-rounded is-medium is-fullwidth">
-                  <select bind:value={message} disabled={isLoading}>
-                    <option value="I am here!" selected>I am here!</option>
-                    <option value="I need assistance.">I need assistance.</option>
-                  </select>
-                </div>
+                <input
+                  class="input is-rounded is-medium"
+                  placeholder="Your Name"
+                  bind:value={from}
+                  disabled={isLoading}
+                />
+                <span class="icon is-large is-left">
+                  <i class="mdi mdi-24px mdi-account" />
+                </span>
+              </div>
+              <div class="control">
+                <button
+                  class="button is-rounded is-medium has-background-white"
+                  type="button"
+                  on:click={() => (from = undefined)}
+                >
+                  <span class="icon">
+                    <i class="mdi mdi-24px mdi-backspace" />
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="field is-grouped">
+              <div class="control has-icons-left is-expanded">
+                <input
+                  class="input is-rounded is-medium is-static has-text-white"
+                  placeholder="Your Name"
+                  disabled={isLoading}
+                  readonly
+                  value="Notify {activePersonModel.name} that you have arrived."
+                />
                 <span class="icon is-large is-left">
                   <i class="mdi mdi-24px mdi-text" />
                 </span>
@@ -183,7 +195,7 @@
                 <button
                   class="button is-primary has-background-dark is-inverted is-rounded is-medium"
                   type="button"
-                  disabled={from == null || message == null}
+                  disabled={from == null}
                   class:is-loading={isLoading}
                   on:click={handleMessageSend}
                 >
