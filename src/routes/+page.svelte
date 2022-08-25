@@ -23,9 +23,6 @@
     icon: '01d'
   };
 
-  const webexApiUrl = 'https://webexapis.com/v1';
-  const webexToken = $page.url.searchParams.get('webexToken');
-
   const cityId = 5506956;
   const getWeatherResponse = (cityId: number, units: 'imperial' | 'standard') =>
     fetch(owmApiUrl + '?' + new URLSearchParams({ appid: owmToken, id: cityId.toString(), units: units }))
