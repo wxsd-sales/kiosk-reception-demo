@@ -192,7 +192,7 @@
                 <button
                   class="button is-primary has-background-dark is-inverted is-rounded is-medium"
                   type="button"
-                  disabled={from == null}
+                  disabled={from == null || from.length === 0}
                   class:is-loading={isLoading}
                   on:click={handleMessageSend}
                 >
