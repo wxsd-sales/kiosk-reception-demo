@@ -182,7 +182,7 @@
                   placeholder="Your Name"
                   disabled={isLoading}
                   readonly
-                  value="Notify {activePersonModel.name} that you have arrived."
+                  value="Notify {activePersonModel.name} that you have arrived"
                 />
                 <span class="icon is-large is-left">
                   <i class="mdi mdi-24px mdi-text" />
