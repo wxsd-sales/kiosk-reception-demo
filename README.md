@@ -1,31 +1,27 @@
-# Kiosk Reception Demo
-
-**A simple Reception Kiosk Demo for RoomOS devices.**
-
-This is a proof-of-concept application that is intended to be used as a simple reception desk Kiosk on a [RoomOS 11](https://help.webex.com/en-us/article/n01kjh1/New-user-experience-with-RoomOS-11) device in Kiosk/PWA mode.
-Kiosk and PWA (Persistent Web App) are new modes that make use of the in-built Web Engine on modern RoomOS devices to display a webpage or custom-made web application on the device.
-
-<p align="center">
-   <a href="https://app.vidcast.io/share/bb910329-f398-4f04-baec-18ddaf46f493" target="_blank">
-       <img src="https://github.com/wxsd-sales/kiosk-reception-demo/assets/6129517/5e99058f-d4fd-4973-aaae-0d768f10837f" alt="kiosk-reception-demo"/>
-    </a>
-</p>
-
-<!-- ⛔️ MD-MAGIC-EXAMPLE:START (TOC:collapse=true&collapseText=Click to expand) -->
-<details>
-<summary>Table of Contents (click to expand)</summary>
-
-* [Overview](#overview)
-* [Setup](#setup)
-* [Demo](#demo)
-* [Support](#support)
-
-</details>
-<!-- ⛔️ MD-MAGIC-EXAMPLE:END -->
+# Kiosk Reception Demo with Directory Search and Manual Dial
 
 ## Overview
 
-This application allows you to customize the contact cards, brand logo, background, etc. that make up the UI/controls of a RoomOS device in PWA/Kiosk device. You can create multiple URLs and activate them on a compatible device of your choice. Once activated, the application uses [cloud xAPI requests](https://roomos.cisco.com/docs/Introduction.md#the-xapi) with a Webex Bot token to control the device (make calls, etc.).
+This application allows you to customize the contact cards, brand logo, background, etc. that make up the UI controls of a RoomOS device in PWA/Kiosk device. It is based on https://github.com/wxsd-sales/kiosk-reception-demo, and is adding two new capabilities.
+
+
+## New capabilities
+
+1. Manual Dialer
+
+   It supports numeric dialing:
+
+   ![dialer](documentation/images/dialer-number.png)
+
+   And alpha-numeric dialing:
+
+   ![dialer alpha](documentation/images/dialer-alpha.png)
+
+2. Directory Search
+
+   This search is based on the SCIM 2 Admin API, and is restricted to a specific Control Hub group. So, it will show users only members of the group:
+
+   ![search](documentation/images/search.png)
 
 ## Setup
 
@@ -37,13 +33,22 @@ These instructions assume that you have administrator access to an Org's Webex C
 
 3. Note the device identifier by executing the [List Devices API request](https://developer.webex.com/docs/api/v1/devices/list-devices) on the Webex developer portal, it’s the `id` field in the response as `DEVICE_ID`.
 
-4. Create the URL for the reception kiosk by replacing the appropriate values below; you can have as many people as you want. Those are separated by a comma "`,`" and a corresponding Webex Calling extension/number/sip address can be provided by a colon "`:`". For example:
+4. SCIM 2 API requires the use of an Auth Token. In this example, we created a [Service App](https://developer.webex.com/admin/docs/service-apps) to get an Access Token. Save it as `SERVICEAPP_TOKEN`.
 
-   ```text
-   https://wxsd-sales.github.io/kiosk-reception-demo?people=john@pubhub-01.wbx.ai:0610,jane@pubhub-01.wbx.ai:1006&background=https://cf-images.us-east-1.prod.boltdns.net/v1/static/1384193102001/46e1a133-643e-435c-b073-8fd26be857e7/757bc84f-02c4-4468-b90b-7f097d265106/1280x720/match/image.jpg&logo=https://www.webexone.com/content/dam/www/us/en/images/webexone/2024/save-the-date/webexone24-logo-white.svg&owmCityId=4164138&owmToken=OWM_TOKEN&webexToken=WEBEX_TOKEN&deviceId=DEVICE_ID
-   ```
+5. Get your Webex ORG Id.
 
-5. Visit the org's [Control Hub device page](https://admin.webex.com/devices), choose your device and make the following changes using the "All configuration" link:
+6. Add the people you want to be visible for searching to the same Webex Control Hub Group. Note the name of the group in a notepad as GROUP_NAME.
+
+7. Create the URL for the reception kiosk by replacing the appropriate values below
+
+```text
+https://wxsd-sales.github.io/kiosk-reception-search-dialer/?people=johndoe@workspace.wxsd.us:6661&background=https://cf-images.us-east-1.prod.boltdns.net/v1/static/1384193102001/46e1a133-643e-435c-b073-8fd26be857e7/757bc84f-02c4-4468-b90b-7f097d265106/1280x720/match/image.jpg&logo=https://www.webexone.com/content/dam/www/us/en/images/webexone/2024/save-the-date/webexone24-logo-white.svg&owmCityId=2643743&owmToken=OWM_TOKEN&webexToken=WEBEX_TOKEN&deviceId=DEVICE_ID&accessToken=SERVICEAPP_TOKEN&groupName=GROUP_NAME&orgId=WEBEX_ORGID
+```
+In this case, we recommend to have a maximum of 2 persons in the `people`parameter, separated by a comma ",".
+
+You can choose your own logo and background images.
+
+8. Visit the org's [Control Hub device page](https://admin.webex.com/devices), choose your device and make the following changes using the "All configuration" link:
    - Set the value for `NetworkServices > HTTP > Mode` to `HTTP+HTTPS`
    - Set the value for `WebEngine > Mode` to `On`
    
@@ -55,10 +60,6 @@ These instructions assume that you have administrator access to an Org's Webex C
    - Set the value for `WebEngine > Features > Xapi.Peripherals.AllowedHosts.Hosts` to `*`
    - Set the value for `UserInterface > HomeScreen.Peripherals.WebApp.URL` to the URL you created in Step 4 above
 
-## Demo
-
-A demo is not availabe at this time.
-
 ## Support
 
-Please reach out to the WXSD team at [wxsd@external.cisco.com](mailto:wxsd@external.cisco.com?cc=ashessin@cisco.com&subject=Azure%20Group%20Sync) or contact me on Webex (ashessin@cisco.com).
+Please, contact the WXSD team at wxsd@external.cisco.com for questions. Or, if you're a Cisco employee, reach out to us on the Webex App via our bot (globalexpert@webex.bot). In the "Engagement Type" field, choose the "API/SDK Proof of Concept Integration Development" option to reach our team.

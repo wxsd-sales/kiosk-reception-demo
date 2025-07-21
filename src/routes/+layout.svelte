@@ -63,7 +63,7 @@
 </script>
 
 <svelte:head>
-  <title>RoomOS Device Widgets</title>
+  <title>Video Kiosk</title>
 </svelte:head>
 
 <noscript id="javascript-warning" class="hero is-danger is-bold">
