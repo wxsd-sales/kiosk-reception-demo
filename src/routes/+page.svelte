@@ -34,8 +34,10 @@
         description: r.weather[0].description,
         icon: r.weather[0].icon
       }));
-  const getPersonResponse = (email: string) =>
-    fetch(webexApiUrl + `/people?email=${encodeURIComponent(email)}`, {
+  const getPersonResponse = (email: string) => {
+    email = email.replaceAll(" ","+");
+    console.log('email', email);
+    return fetch(webexApiUrl + `/people?email=${encodeURIComponent(email)}`, {
       headers: { Authorization: 'Bearer ' + webexToken }
     })
       .then((r) => (r.status >= 400 ? Promise.reject(r) : r))
@@ -50,7 +52,7 @@
           dial: r.extension ?? email
         };
       });
-
+  }
   let activePersonModel = undefined;
   let isLoading = false;
   let from = undefined;

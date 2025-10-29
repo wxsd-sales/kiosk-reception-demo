@@ -24,14 +24,14 @@
   <div class="card-content">
     {#await personResponse then person}
       <div class="media is-justify-content-center">
-        <Avatar size={250} status={person.status} image={person.image} />
+        <Avatar size={250} status={person?.status} image={person?.image} />
       </div>
       <div class="content">
         <hr />
         <div class="columns is-vcentered is-mobile is-multiline">
           <div class="column">
-            <h1 class="title is-size-5">{person.displayName}</h1>
-            <h2 class="subtitle is-size-6 has-text-grey">{person.title}</h2>
+            <h1 class="title is-size-5">{person?.displayName}</h1>
+            <h2 class="subtitle is-size-6 has-text-grey">{person?.title}</h2>
           </div>
           <div class="column is-narrow">
             <div class="field is-grouped">
